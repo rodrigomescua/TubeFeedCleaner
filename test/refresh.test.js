@@ -25,7 +25,7 @@ test('execution reads YouTube again after hiding and manual refresh never hides'
     }};
   `);
   const listener=net.createServer();await new Promise(r=>listener.listen(0,'127.0.0.1',r));const port=listener.address().port;await new Promise(r=>listener.close(r));const base=`http://127.0.0.1:${port}`;
-  const child=spawn(process.execPath,['app/server.js'],{env:{...process.env,NODE_PATH:path.join(dir,'node_modules'),DATA_FILE:path.join(dir,'state.json'),PROBE_LOG:path.join(dir,'probe.log'),PORT:String(port)},stdio:'ignore'});
+  const child=spawn(process.execPath,['app/server.js'],{env:{...process.env,NODE_OPTIONS:`--require=${path.join(__dirname,'mock-playwright.js')}`,PLAYWRIGHT_MOCK:path.join(modules,'index.js'),DATA_FILE:path.join(dir,'state.json'),PROBE_LOG:path.join(dir,'probe.log'),PORT:String(port)},stdio:'ignore'});
   try {
     for(let i=0;i<50;i++){try{await fetch(base+'/api/state');break}catch{await new Promise(r=>setTimeout(r,100))}}
     const post=(url,options={})=>fetch(base+url,{...options,method:options.method||'POST',headers:{origin:base,'content-type':'application/json'}});

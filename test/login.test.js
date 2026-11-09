@@ -25,7 +25,7 @@ test('login pauses the worker, verifies the session, and rejects other origins',
   const port = listener.address().port;
   await new Promise(resolve => listener.close(resolve));
   const base = `http://127.0.0.1:${port}`;
-  const child = spawn(process.execPath, ['app/server.js'], { env: { ...process.env, NODE_PATH: path.join(dir, 'node_modules'), DATA_FILE: path.join(dir, 'state.json'), CHROME_PROFILE: path.join(dir, 'profile'), PORT: String(port) }, stdio: 'ignore' });
+  const child = spawn(process.execPath, ['app/server.js'], { env: { ...process.env, NODE_OPTIONS: `--require=${path.join(__dirname, 'mock-playwright.js')}`, PLAYWRIGHT_MOCK: path.join(moduleDir, 'index.js'), DATA_FILE: path.join(dir, 'state.json'), CHROME_PROFILE: path.join(dir, 'profile'), PORT: String(port) }, stdio: 'ignore' });
   try {
     let ready = false;
     for (let i = 0; i < 50; i++) {

@@ -15,7 +15,7 @@ test('interval changes reschedule and persist, invalid values are rejected', asy
   fs.writeFileSync(path.join(dir,'timers.js'), `const fs=require('node:fs');const original=global.setTimeout;global.setTimeout=(fn,ms,...args)=>{if(ms>=60000)fs.appendFileSync(process.env.TIMER_LOG,ms+'\\n');return original(fn,ms,...args)};`);
   const listener = net.createServer(); await new Promise(resolve => listener.listen(0,'127.0.0.1',resolve)); const port = listener.address().port; await new Promise(resolve => listener.close(resolve));
   const base = `http://127.0.0.1:${port}`;
-  const child = spawn(process.execPath,['app/server.js'],{env:{...process.env,NODE_OPTIONS:`--require=${path.join(dir,'timers.js')}`,NODE_PATH:path.join(dir,'node_modules'),DATA_FILE:path.join(dir,'state.json'),TIMER_LOG:path.join(dir,'timers.log'),PORT:String(port),INTERVAL_MINUTES:'30'},stdio:'ignore'});
+  const child = spawn(process.execPath,['app/server.js'],{env:{...process.env,NODE_OPTIONS:`--require=${path.join(__dirname,'mock-playwright.js')} --require=${path.join(dir,'timers.js')}`,PLAYWRIGHT_MOCK:path.join(moduleDir,'index.js'),DATA_FILE:path.join(dir,'state.json'),TIMER_LOG:path.join(dir,'timers.log'),PORT:String(port),INTERVAL_MINUTES:'30'},stdio:'ignore'});
   try {
     let state;
     for (let i=0;i<50;i++) { try { state=await fetch(base+'/api/state').then(r=>r.json()); break; } catch { await new Promise(r=>setTimeout(r,100)); } }
