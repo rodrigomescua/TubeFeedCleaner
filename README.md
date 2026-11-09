@@ -7,7 +7,7 @@ Userscript para cadastrar palavras e frases, destacar vídeos correspondentes no
 1. Instale Tampermonkey ou Violentmonkey.
 2. Atualize no cabeçalho do userscript `rodrigomescua` (ou atualize as URLs caso o repositório fique em outra conta/organização).
 3. Publique o arquivo `youtube-feed-cleaner.user.js` no branch `main`.
-4. Instale pelo endereço `https://raw.githubusercontent.com/rodrigomescua/youtube-feed-cleaner/main/youtube-feed-cleaner.user.js`.
+4. Instale pelo endereço `https://raw.githubusercontent.com/rodrigomescua/TubeFeedCleaner/main/youtube-feed-cleaner.user.js`.
 
 Quando publicar uma nova versão, incremente `@version` no cabeçalho e envie o commit para GitHub. O gerenciador consulta `@updateURL` e baixa a atualização de `@downloadURL`.
 
@@ -15,7 +15,7 @@ Quando publicar uma nova versão, incremente `@version` no cabeçalho e envie o 
 
 O Greasy Fork pode importar um userscript completo a partir de uma URL externa e sincronizar as mudanças dessa origem. Para este repositório:
 
-1. Importe `https://raw.githubusercontent.com/rodrigomescua/youtube-feed-cleaner/main/youtube-feed-cleaner.user.js` pela opção **Importar scripts** do Greasy Fork.
+1. Importe `https://raw.githubusercontent.com/rodrigomescua/TubeFeedCleaner/main/youtube-feed-cleaner.user.js` pela opção **Importar scripts** do Greasy Fork.
 2. Configure a sincronização automática ou acione a sincronização manual na página de edição do script.
 3. Incremente `@version` a cada release e envie as alterações para o GitHub. Confirme no Greasy Fork que a sincronização criou a versão esperada.
 
@@ -38,6 +38,10 @@ O projeto também pode rodar como um serviço contínuo com interface web, worke
 docker compose build
 docker compose up -d
 ```
+
+As imagens publicadas ficam em `ghcr.io/rodrigomescua/tubefeedcleaner`. Para usar a última release sem compilar localmente, execute `docker compose pull` e `docker compose up -d --no-build`. Cada release publica as tags `latest`, `major`, `major.minor`, `version` e `sha`; as imagens são `linux/amd64`.
+
+Commits seguindo [Conventional Commits](https://www.conventionalcommits.org/) geram um pull request de release automaticamente. Ao mesclar esse PR, o fluxo cria a GitHub Release, anexa o userscript e publica a imagem no GHCR. O CI executa `npm test` nos pull requests.
 
 Abra `http://localhost:8080` para configurar os termos e consultar o histórico. O container permanece ativo com `restart: unless-stopped` e processa o feed no intervalo configurado em **Visão geral**. O padrão é 30 minutos; `INTERVAL_MINUTES` define o padrão inicial para novas instalações. Alterações feitas no painel ficam salvas e prevalecem sobre essa variável.
 

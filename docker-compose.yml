@@ -1,5 +1,6 @@
 services:
   youtube-cleaner:
+    image: ghcr.io/rodrigomescua/tubefeedcleaner:latest
     build: .
     restart: unless-stopped
     init: true

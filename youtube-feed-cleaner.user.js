@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         YouTube Feed Cleaner
 // @author       rodrigomescua
-// @namespace    https://github.com/rodrigomescua/youtube-feed-cleaner
+// @namespace    https://github.com/rodrigomescua/TubeFeedCleaner
 // @version      1.0.0
 // @description  Gerencie termos e oculte vídeos correspondentes no feed de inscrições.
-// @homepageURL  https://github.com/rodrigomescua/youtube-feed-cleaner
-// @supportURL   https://github.com/rodrigomescua/youtube-feed-cleaner/issues
-// @updateURL    https://raw.githubusercontent.com/rodrigomescua/youtube-feed-cleaner/main/youtube-feed-cleaner.user.js
-// @downloadURL  https://raw.githubusercontent.com/rodrigomescua/youtube-feed-cleaner/main/youtube-feed-cleaner.user.js
+// @homepageURL  https://github.com/rodrigomescua/TubeFeedCleaner
+// @supportURL   https://github.com/rodrigomescua/TubeFeedCleaner/issues
+// @updateURL    https://raw.githubusercontent.com/rodrigomescua/TubeFeedCleaner/main/youtube-feed-cleaner.user.js
+// @downloadURL  https://raw.githubusercontent.com/rodrigomescua/TubeFeedCleaner/main/youtube-feed-cleaner.user.js
 // @license      MIT
 // @match        https://www.youtube.com/feed/subscriptions*
 // @match        https://www.youtube.com/*
