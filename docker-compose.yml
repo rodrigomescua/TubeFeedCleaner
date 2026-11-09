@@ -1,0 +1,16 @@
+services:
+  youtube-cleaner:
+    build: .
+    restart: unless-stopped
+    init: true
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./data:/app/data
+      - ./browser-profile:/data/chrome
+    environment:
+      TZ: America/Sao_Paulo
+      PORT: 8080
+      INTERVAL_MINUTES: 30
+      CHROME_PROFILE: /data/chrome/cleaner-profile
+    shm_size: "1gb"

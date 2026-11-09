@@ -29,3 +29,26 @@ O Greasy Fork fornece o endereço de instalação e as atualizações aos usuár
 - É possível ocultar visualmente as seções Shorts e Mais relevantes no feed de inscrições; essa opção não aciona a opção nativa “Ocultar”.
 - O painel mostra avisos para alterações nos termos, opções, histórico e resultado das ações de ocultação.
 - O script depende dos seletores da interface web do YouTube e pode precisar de ajustes quando a página mudar.
+
+## Serviço Docker automatizado
+
+O projeto também pode rodar como um serviço contínuo com interface web, worker Playwright e estado persistente em JSON.
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+Abra `http://localhost:8080` para configurar os termos e consultar o histórico. O container permanece ativo com `restart: unless-stopped` e processa o feed no intervalo configurado em **Visão geral**. O padrão é 30 minutos; `INTERVAL_MINUTES` define o padrão inicial para novas instalações. Alterações feitas no painel ficam salvas e prevalecem sobre essa variável.
+
+O serviço escuta apenas em `127.0.0.1:8080` por padrão. Para acessá-lo de outro computador, use um túnel SSH ou um proxy reverso com HTTPS e autenticação. O painel e o navegador de login dão acesso à conta; não exponha a porta diretamente na rede ou na internet. Para publicar atrás de um proxy em outro computador, ajuste o mapeamento de porta no Compose e proteja o acesso ao painel inteiro.
+
+### Conectar ao YouTube
+
+1. Abra `http://localhost:8080` e clique em **Conectar ao YouTube**.
+2. Faça login na conta Google na janela exibida no painel, incluindo a verificação em duas etapas se solicitada.
+3. Clique em **Concluí o login**. O aplicativo verifica a sessão e retoma a automação. Se a sessão expirar, repita o procedimento.
+
+O navegador de login e o worker rodam no mesmo container e usam o perfil persistido em `./browser-profile/cleaner-profile`. Durante o login, a automação fica pausada. Não exclua esse diretório se quiser preservar a sessão. Instalações anteriores mantêm o perfil antigo, mas precisam conectar a conta novamente. O Google pode solicitar uma verificação adicional ou bloquear o acesso ao navegador automatizado; nesse caso, siga as instruções exibidas pelo Google.
+
+Se o Google recusar o navegador do container, use **Importar cookies** no painel. Exporte apenas os cookies de `youtube.com` no formato Netscape `cookies.txt` usando uma extensão de sua confiança; a [documentação do yt-dlp](https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies) descreve uma forma de exportação com janela anônima. O aplicativo valida a sessão antes de importá-la e pode ser necessário repetir o processo quando ela expirar. O arquivo permite acesso à conta: não o compartilhe e apague-o depois da importação.
